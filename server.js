@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const swit = require('swig');
+const swig = require('swig');
 const port = 2022;
 const app = express();
 
@@ -22,7 +22,7 @@ class Server{
     }
 
     initViewEngine(){
-        app.engine(html, swig.renderFile);
+        app.engine('html', swig.renderFile);
         app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'html');
     };
@@ -34,8 +34,8 @@ class Server{
 
     initRoutes(){
         app.get('/', (req, res) => {
-            // res.render('index.html');
-            res.send('this is the homepage of this app.');
+            res.render('index.html');
+            // res.send('this is the homepage of this app.');
         })
     };
 
