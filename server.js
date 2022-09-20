@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const swig = require('swig');
+const routes = require('./routes/routes');
 const port = 2022;
 const app = express();
 
@@ -33,10 +34,7 @@ class Server{
     };
 
     initRoutes(){
-        app.get('/', (req, res) => {
-            res.render('index.html');
-            // res.send('this is the homepage of this app.');
-        })
+        app.use(routes)
     };
 
     initDB(){
