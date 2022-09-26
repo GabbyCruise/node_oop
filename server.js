@@ -9,7 +9,7 @@ const app = express();
 
 class Server{
     constructor(){
-        this.initDB();
+        // this.initDB();
         this.initViewEngine();
         this.initExpressMiddleware();
         this.initRoutes();
@@ -37,9 +37,9 @@ class Server{
         app.use(routes)
     };
 
-    initDB(){
-        mongoose.connect('mongodb://localhost/meeting');
-    }
+    // initDB(){
+    //     mongoose.connect('mongodb://localhost/meeting');
+    // }
 }
 
 new Server();
