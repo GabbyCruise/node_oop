@@ -1,13 +1,22 @@
+// const { User } = require('../models/user');
 module.exports = class User {
-    constructor(){
-        this.create = 'creating user data';
-        this.details = 'getting user details';
-        this.list = 'listing all created users';
+    constructor(username, email, password){
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    validateCredentials(){
+        if(!this.username){
+            throw new Error('kindly enter your username');
+        }//continue from here
     }
 
     createUser(){
         //create function
-        return console.log(this.create)
+        const { name, email, role } = req.body;
+        const user =  User.create({ name, email, role})
+        return user
     }
 
     getUser(){

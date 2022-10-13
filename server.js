@@ -1,16 +1,18 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const swig = require('swig');
+const logger = require('morgan');
+// const mongoose = require('mongoose');
 const routes = require('./routes/routes');
+const { sequelize } = require('./models');
+// const errorHandler = require('./services/errorHandler');
+
 const port = 2022;
 const app = express();
 
 class Server{
     constructor(){
-        // this.initDB();
-        this.initViewEngine();
+        this.initDB();
+        // this.ErrorHandler();
         this.initExpressMiddleware();
         this.initRoutes();
         this.start();
@@ -22,24 +24,28 @@ class Server{
         })
     }
 
-    initViewEngine(){
-        app.engine('html', swig.renderFile);
-        app.set('views', path.join(__dirname, 'views'));
-        app.set('view engine', 'html');
-    };
-
     initExpressMiddleware(){
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(logger('dev'));
     };
+
+    // ErrorHandler(){
+    //     app.use(errorHandler);//keep an eye
+    // }
 
     initRoutes(){
         app.use(routes)
     };
 
-    // initDB(){
-    //     mongoose.connect('mongodb://localhost/meeting');
-    // }
+    initDB(){
+        async function connect(){
+            await sequelize.authenticate();
+            console.log('Connection established!.')
+        }
+        // mongoose.connect('mongodb://localhost/meeting');
+        connect();
+    }
 }
 
 new Server();
