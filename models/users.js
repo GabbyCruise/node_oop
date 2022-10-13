@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     toJSON(){//you can define each field to get from this model here
-      return { ...this.get(), id: undefined }
+      return { ...this.get(), id: undefined, updatedAt: undefined }
     }
   }
 
