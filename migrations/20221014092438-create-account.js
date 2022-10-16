@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('accounts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,51 +11,52 @@ module.exports = {
 
       guid : {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,//used to generae unique ids
+        defaultValue: DataTypes.UUIDV4,//generae unique ids
       },
 
-      name: {
-        type:  DataTypes.STRING,
-        allowNull: false,
-      },
-  
-      email: {
-        type:  DataTypes.STRING,
-        allowNull: false,
-      },
-  
-      role: {
-        type:  DataTypes.STRING,
-        allowNull: false,
-      },
-
-      branch: {
-        type:  DataTypes.STRING,
+      accountId: {
+        type: DataTypes.CHAR,
         allowNull: true,
-        defaultValue: null,
+        defaultValue: 'default',
       },
-
-      account_number: {
+  
+      accountname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+  
+      bankname:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+  
+      accountnumber:{
         type: DataTypes.BIGINT,
         allowNull: false,
       },
   
-      book_balance: {
+      amount: {
         type: DataTypes.DECIMAL,
-        allowNull: true,
-        defaultValue: 0,
+        allowNull: false,
       },
   
-      available_balance: {
-        type: DataTypes.DECIMAL,
+      depositor:{
+        type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: 0,
+        defaultValue: null,
+      },
+
+      description:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
 
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
       },
+
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
@@ -63,6 +64,6 @@ module.exports = {
     });
   },
   async down(queryInterface, DataTypes) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('accounts');
   }
 };

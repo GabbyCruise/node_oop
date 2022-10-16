@@ -1,44 +1,31 @@
 const express = require('express');
 const router  = express.Router();
-const db = require('../models/index');
-const userController = require('../controllers/users');
-const { createUser, getUser, listUsers, activateUser, loginUser } = new userController;
-const User = db.Users;
-
-//USER ROUTES
-// router.post('/signup', async (req, res) => {
-//    const { name, email, role } = req.body;
-
-//    if(!name){
-//     return res.status(403).json('kindly fill in the input fields to continue');
-//    }
-
-//    try{
-//     const user = await User.create({ name: name, email: email, role: role }).then((user) => { return user });
-//     return res.json(user);
-
-//    }catch(error) {
-//     return res.status(500).json(error.message);
-//    }
-// });
+const api_response = require('../middleware/apiResponses');
+const userController = require('../controllers/user_controller');
+const { createUser, allUserList } = new userController;
+const version = "BNKV_001";
 
 
 router.post('/signup', async ( req, res ) => {
-    const { username, email, role } = req.body;
-    const createUsers = await createUser(User, username, email, role);
-    return res.json(createUsers);
-})
+  try{
 
+    const { username, email, role, branch } = req.body;
+    const userSignup = await createUser({api_response}, {username, email, role, branch });
+    return res.json(userSignup);
+
+   } catch ( error ) {
+    return res.status(500).json(api_response.failure('/signup',version, error.message ))
+   }
+});
 
 router.get('/users', async ( req, res ) => {
-    const allUsers = await listUsers(User);
-    return res.json(allUsers);
-})
-
-router.get('/user', async ( req, res) => {
-    const userID = req.query.uid;
-    const foundUser = await getUser(User, userID);
-    return res.json(foundUser);
-})
+    try{
+        const allUsers = await allUserList();
+        return allUsers
+        return res.json(api_response.resWithData(allUsers, allUserList.length, version, '/users'));
+    } catch ( error ){
+        return res.status(500).json(api_response.failure('/users',version, error.message ))
+    }
+});
 
 module.exports = router;
